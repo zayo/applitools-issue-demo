@@ -3,6 +3,7 @@ This demo is a reproducible scenario for dependency issues with minified apk.
 The details are described in app/build.gradle file.
 
 #Issue result
+
 This demo produces exception 
 ```
 java.lang.NoClassDefFoundError: Failed resolution of: Lcom/fasterxml/jackson/core/ObjectCodec;
@@ -50,6 +51,7 @@ at java.lang.ClassLoader.loadClass(ClassLoader.java:312)
 ```
 
 #Ok result
+
 Ok scenario for this use case if to fail on invalid applitools URL. You should see this exception in the logcat.
 ```
 E/AndroidRuntime: FATAL EXCEPTION: Thread-2
