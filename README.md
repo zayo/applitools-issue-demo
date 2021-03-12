@@ -1,6 +1,6 @@
 This demo is a reproducible scenario for dependency issues with minified apk.
 
-The details are described in app/build.gradle file.
+The details are described in **app/build.gradle** file.
 
 # Issue result
 This demo produces exception 
