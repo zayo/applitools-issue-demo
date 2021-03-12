@@ -2,10 +2,9 @@ This demo is a reproducible scenario for dependency issues with minified apk.
 
 The details are described in app/build.gradle file.
 
-#Issue result
-
+# Issue result
 This demo produces exception 
-```
+```java
 java.lang.NoClassDefFoundError: Failed resolution of: Lcom/fasterxml/jackson/core/ObjectCodec;
 at com.applitools.eyes.android.common.network.ConnectionFactory.create(ConnectionFactory.java:10)
 at com.applitools.eyes.android.core.EyesBase.<init>(EyesBase.java:74)
@@ -50,10 +49,9 @@ at java.lang.ClassLoader.loadClass(ClassLoader.java:312)
 ... 36 more
 ```
 
-#Ok result
-
+# Ok result
 Ok scenario for this use case if to fail on invalid applitools URL. You should see this exception in the logcat.
-```
+```java
 E/AndroidRuntime: FATAL EXCEPTION: Thread-2
     Process: com.playground.atid, PID: 7779
     com.applitools.eyes.android.common.exceptions.EyesException: Failed to connect to server 
