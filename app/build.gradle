@@ -95,5 +95,5 @@ dependencies {
      * But those would keep all this jackson deps inside prod apk. Although not needed, as we care only about usage of
      * google-api-client-android dependency, the rest has to be minified.
      */
-    testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.9.7'
+    androidTestImplementation 'com.fasterxml.jackson.core:jackson-databind:2.9.7'
 }
