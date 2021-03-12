@@ -1,0 +1,3 @@
+-dontshrink
+-dontobfuscate
+-ignorewarnings

@@ -1,0 +1,2 @@
+rootProject.name = "Applitools Issue Demo"
+include ':app'

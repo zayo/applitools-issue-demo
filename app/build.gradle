@@ -1,0 +1,99 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+android {
+    compileSdkVersion 30
+
+    testOptions {
+        execution = "ANDROIDX_TEST_ORCHESTRATOR"
+    }
+
+    defaultConfig {
+        applicationId "com.playground.atid"
+        minSdkVersion 21
+        targetSdkVersion 29
+        compileSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testApplicationId = "com.playground.atid.test"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {
+            /**
+             * We do obfuscate & optimize the code even for debug builds.
+             * But this is more for illustration, as setting up release requires keystore, etc..
+             * In real world example we run espresso tests on production build anyway.
+             */
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            // We don't need to shrink the code for testApk, as that's actually unwanted.
+            testProguardFile 'test-proguard-rules.pro'
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            // We don't need to shrink the code for testApk, as that's actually unwanted.
+            testProguardFile 'test-proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    /**
+     * This does nothing, but making and incompatibility of deps versions since it drags jackson 2.9.6.
+     * Effectively requires us to define jackson-databind dependency manually, or the Applitools fails.
+     */
+    implementation('com.google.api-client:google-api-client-android:1.25.0') {
+        exclude group: 'com.google.guava', module: 'guava'
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+    }
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+
+    androidTestImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test:core:1.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation "androidx.test:rules:1.3.0"
+    androidTestUtil "androidx.test:orchestrator:1.3.0"
+
+    androidTestImplementation 'com.applitools:eyes-android-espresso:4.7.5@aar'
+    androidTestImplementation 'com.applitools:eyes-android-components-androidx:4.7.5@aar'
+    androidTestImplementation 'com.applitools:eyes-android-common:4.7.5'
+    androidTestImplementation 'com.applitools:eyes-android-components:4.7.5@aar'
+    androidTestImplementation 'com.applitools:eyes-android-core:4.7.5'
+
+    /**
+     * FIXME this has actually zero effect.
+     * It doesn't matter which version is used.
+     * It doesn't matter whether the dependency is defined as androidTestImplementation or implementation.
+     * For the `androidTestImplementation` this has no effect at all.
+     * For the `implementation` this works only with defining proguard rules in the proguard-rules.pro defined as below.
+     *
+     * # Proguard configuration for Jackson 2.x for Applitools automation
+     * -keep class com.fasterxml.jackson.databind.ObjectMapper { *; }
+     * -keep class com.fasterxml.jackson.databind.ObjectWriter {
+     *     public ** writeValueAsString(**);
+     * }
+     *
+     * But those would keep all this jackson deps inside prod apk. Although not needed, as we care only about usage of
+     * google-api-client-android dependency, the rest has to be minified.
+     */
+    testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.9.7'
+}

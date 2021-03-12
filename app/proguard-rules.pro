@@ -1,0 +1,2 @@
+-optimizations code/removal/simple,code/removal/advanced
+-keepattributes SourceFile,LineNumberTable,*Annotation*
